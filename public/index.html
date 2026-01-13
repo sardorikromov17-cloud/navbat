@@ -15,16 +15,22 @@
         .overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.4); z-index: -1; }
 
         .top-bar {display: flex; 
-    flex-direction: column; /* Elementlarni ustma-ust qiladi */
-    align-items: center;    /* Markazga tekislaydi */
-    padding: 10px 0; 
+    justify-content: center; /* Logoni qoq markazga oladi */
+    align-items: center; 
+    padding: 20px 50px; 
     background: rgba(255, 255, 255, 0.9); 
-    position: relative;}
-        .logo img {height: 120px; /* Logoni bir oz kattaroq qilsangiz chiroyli chiqadi */
-    margin-bottom: 10px; }
-        .datetime {font-size: 20px; 
+    position: relative; /* Soatni burchakka bog'lash uchun kerak */
+    height: 120px; /* Header balandligi */}
+        .logo img {height: 100px; /* Logotip o'lchami */
+    display: block; }
+        .datetime {position: absolute; /* Bar ichida erkin harakatlanadi */
+    right: 30px;        /* O'ng burchakdan masofa */
+    top: 50%;           /* Vertikal o'rtaga tushirish uchun */
+    transform: translateY(-50%); /* To'liq markazlash uchun */
+    text-align: right; 
+    font-size: 22px; 
     font-weight: bold; 
-    color: #333; }
+    color: #333;}
 
         .main { display: flex; flex: 1; padding: 30px; gap: 30px; }
         .col { flex: 1; background: rgba(255, 255, 255, 0.514); border-radius: 30px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.2); }
@@ -81,6 +87,7 @@
 </body>
 
 </html>
+
 
 
 
