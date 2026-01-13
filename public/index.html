@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <title>KiddyToys Monitor</title>
+    <style>
+        :root { --red: #d5525c; --green: #5dde93; --blue: #3f6081; }
+        body { 
+            margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif;
+            background: url('k22.png') no-repeat center center fixed; 
+            background-size: cover; 
+            height: 100vh; display: flex; flex-direction: column;
+        }
+        /* Orqa fonni bir oz xiralashtirish (raqamlar aniq ko'rinishi uchun) */
+        .overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.4); z-index: -1; }
+
+        .top-bar { display: flex; justify-content: space-between; align-items: center; padding: 20px 50px; background: rgba(255, 255, 255, 0.9); }
+        .logo img { height: 80px; }
+        .datetime { text-align: right; font-size: 24px; font-weight: bold; color: #333; }
+
+        .main { display: flex; flex: 1; padding: 30px; gap: 30px; }
+        .col { flex: 1; background: rgba(255, 255, 255, 0.514); border-radius: 30px; display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.2); }
+        .col-h { padding: 20px; font-size: 35px; font-weight: 900; text-align: center; color: rgb(255, 255, 255); }
+        .bg-r { background: var(--red); }
+        .bg-g { background: var(--green); }
+
+        .list { padding: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .card { background: #eaeaea; border: 5px solid #e8ed9c; border-radius: 20px; padding: 30px; font-size: 70px; font-weight: 800; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        
+        .jar .card { color: var(--red); border-color: var(--red); }
+        .tay .card { color: var(--blue); border-color: var(--green); }
+
+        .footer { background: #004a99; color: rgb(241, 184, 133); padding: 25px; font-size: 30px; text-align: center; font-weight: bold; letter-spacing: 5px; }
+    </style>
+</head>
+<body>
+    <div class="overlay"></div>
+    <div class="top-bar">
+        <div class="logo"><img src="https://i.postimg.cc/mD363z0Y/logo.png" alt="Logo"></div>
+        <div class="datetime" id="clock">13.01.2026 | 00:00:00</div>
+    </div>
+
+    <div class="main">
+        <div class="col jar">
+            <div class="col-h bg-r">JARAYONDA</div>
+            <div id="j_list" class="list"></div>
+        </div>
+        <div class="col tay">
+            <div class="col-h bg-g">TAYYOR</div>
+            <div id="t_list" class="list"></div>
+        </div>
+    </div>
+
+    <div class="footer">XARIDINGIZ UCHUN RAHMAT</div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+        // Soatni yangilab turish
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('clock').innerText = now.toLocaleString('uz-UZ');
+        }
+        setInterval(updateClock, 1000);
+
+        socket.on('update', d => {
+            document.getElementById('j_list').innerHTML = d.jarayonda.map(n => `<div class="card">${n}</div>`).join('');
+            document.getElementById('t_list').innerHTML = d.tayyor.map(n => `<div class="card">${n}</div>`).join('');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Panel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body { font-family: sans-serif; padding: 30px; max-width: 500px; margin: auto; background: #f4f4f4; }
+        .box { background: rgb(207, 183, 75); padding: 20px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        input { width: 100%; padding: 15px; font-size: 20px; margin-bottom: 10px; box-sizing: border-box; border: 2px solid #ddd; border-radius: 8px; }
+        .btns { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        button { padding: 15px; font-size: 16px; border: none; border-radius: 8px; cursor: pointer; color: white; font-weight: bold; }
+        .btn-red { background: #ff4757; }
+        .btn-green { background: #2ed573; }
+        .btn-clear { background: #57606f; width: 100%; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h2>Navbat Boshqaruvi</h2>
+        <input type="text" id="orderId" placeholder="ID kiritish (masalan: 15)">
+        <div class="btns">
+            <button class="btn-red" onclick="action('add_jar')">+ Jarayonda</button>
+            <button class="btn-green" onclick="action('move_tay')">→ Tayyorga</button>
+        </div>
+        <button class="btn-clear" onclick="action('remove')">X O'chirish (ID bo'yicha)</button>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+        function action(type) {
+            const id = document.getElementById('orderId').value;
+            if(!id) return alert("ID kiriting!");
+            socket.emit('admin_action', { type, id });
+            document.getElementById('orderId').value = '';
+        }
+    </script>
+</body>
+</html>
